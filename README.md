@@ -10,15 +10,30 @@
 
 #### 网站列表
 
-- renren.com
+- [renren.com]()
+- [易网通物流平台](http://mf.sealink.net.cn/)
 
 #### 用法
------
 
 `config/` 目录下, 网站的配置文件，保存为 `website_name.json`
 
-```python
-python login.py website_name
+```shell
+$ python login.py website_name
 ```
 
 如: `python login.py renren`
+
+#### 验证码自动识别
+
+```python
+$ python authcode.py htt://url/to/authcode
+```
+
+如:
+
+```shell
+$ python authcode.py http://mf.sealink.net.cn/authcode
+# output: ('JSESSIONID=38F1DFB4AE861EFFB722FFA53DC50AA3.mqbak; Path=/', '9936')
+$ python authcode.py http://newmf.szedi.com.cn/jsp/common/g_image.jsp
+# output: ('JSESSIONID=12AE7574ADD763758232D6D25D8BB590; Path=/', '0828')
+```
