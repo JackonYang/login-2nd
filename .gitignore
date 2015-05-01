@@ -3,7 +3,7 @@ media/*
 static/*
 db.sqlite3
 
-*/rsp_temp/*
+rsp_temp/*
 
 base/local_settings.py
 
