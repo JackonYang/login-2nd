@@ -35,12 +35,22 @@ class clean_cookie:
         pass
 
     @classmethod
-    def renren(self, rsp):
+    def renren(self, rsp, content):
         _timeprog=re.compile(r'; expires=[^;]+?\st=')
         return _timeprog.sub(r'; t=', rsp['set-cookie'])
 
     @classmethod
-    def raw(self, rsp):
+    def yesinfo(self, rsp, content):
+        import json
+        res = json.loads(content)
+        if res['result'] == 1:
+            h = Http(timeout=T_TIMEOUT)
+            rsp, content = h.request(res['redirectUrl'])
+            return rsp.get('set-cookie', None)
+        return None
+
+    @classmethod
+    def raw(self, rsp, content):
         return rsp.get('set-cookie', None)
 
 
@@ -70,7 +80,7 @@ def login(website, username, password, callback_success, callback_error):
 
     # parse cookie
     clean_cookie_meth = getattr(clean_cookie, website, clean_cookie.raw)
-    cookie = clean_cookie_meth(rsp) or headers['Cookie']
+    cookie = clean_cookie_meth(rsp, content) or headers.get('Cookie', 'None')
 
     # content
     if not content:

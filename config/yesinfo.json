@@ -1,0 +1,21 @@
+{
+    "url_login": "https://www.yesinfo.com.cn/passport/login!verify",
+    "field_user": "j_username",
+    "field_password": "j_password",
+    "field_authcode": null,
+    "login_data": {
+    },
+    "headers": {
+        "Host": "www.yesinfo.com.cn",
+        "Connection": "keep-alive",
+        "Cache-Control": "max-age=0",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.118 Safari/537.36",
+        "Content-type": "application/x-www-form-urlencoded",
+        "DNT": "1",
+        "Accept-Encoding": "gzip, deflate",
+        "Accept-Encoding": "gzip,deflate,sdch",
+        "Accept-Language": "zh-CN,zh;q=0.8",
+        "RA-Sid": "7D4CA525-20140731-135920-84d0c2-857327",
+        "RA-Ver": "2.2.15"
+    }
+}
