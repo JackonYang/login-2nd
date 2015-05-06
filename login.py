@@ -54,7 +54,7 @@ class clean_cookie:
         return rsp.get('set-cookie', None)
 
 
-def login(website, username, password, callback_success, callback_error):
+def login(website, username, password, callback_success=default_success, callback_error=default_error):
     cfg_data = load_config(website, callback_error)
     if cfg_data is None:  # error
         return
@@ -103,3 +103,5 @@ if __name__ == '__main__':
         password = raw_input(u'password: ')
 
     login(site, user, password, default_success, default_error)
+    print '*' * 20
+    login(site, user, password)
