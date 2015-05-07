@@ -54,10 +54,17 @@ class clean_cookie:
         return rsp.get('set-cookie', None)
 
 
-def login(website, username, password, callback_success=default_success, callback_error=default_error):
-    cfg_data = load_config(website, callback_error)
+def login(website, username, password):
+    """auto login and return cookie if success
+
+    return Error code if fails:
+    '1': failed to load config
+    '2': timeout
+    '3': cookie not found in headers or response
+    """
+    cfg_data = load_config(website)
     if cfg_data is None:  # error
-        return
+        return '1'
 
     method = 'POST'
     headers = cfg_data['headers']
@@ -74,19 +81,11 @@ def login(website, username, password, callback_success=default_success, callbac
     try:
         rsp, content = h.request(cfg_data['url_login'], method, headers=headers, body=body)  # response 302
     except socket.timeout:
-        err_no, err_msg = 3, 'timeout during 1st login'
-        callback_error(website, err_no, err_msg)
-        return
+        return '2'
 
     # parse cookie
     clean_cookie_meth = getattr(clean_cookie, website, clean_cookie.raw)
-    cookie = clean_cookie_meth(rsp, content) or headers.get('Cookie', 'None')
-
-    # content
-    if not content:
-        content = "'status': '%s', 'location': '%s'" % (rsp['status'], rsp.get('location', 'null'))
-
-    callback_success(website, cookie, content)
+    return clean_cookie_meth(rsp, content) or headers.get('Cookie', '3')
 
 
 if __name__ == '__main__':
@@ -102,6 +101,4 @@ if __name__ == '__main__':
         user = raw_input(u'user: ')
         password = raw_input(u'password: ')
 
-    login(site, user, password, default_success, default_error)
-    print '*' * 20
-    login(site, user, password)
+    print login(site, user, password)
